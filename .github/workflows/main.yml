@@ -26,10 +26,12 @@ jobs:
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
-    # 1. Testleri coverage ile çalıştır
-    - name: Run Tests with Coverage
+# 1. Testleri çalıştır ve kapsama oranı %70 altındaysa fail et
+    - name: Run Tests and Check Coverage Threshold
       run: |
         coverage run -m unittest test_cart.py
+        # %70'in altındaysa pipeline hata verir ve durur
+        coverage report -m --fail-under=70
 
     # 2. HTML Raporunu oluştur
     - name: Generate HTML Report
