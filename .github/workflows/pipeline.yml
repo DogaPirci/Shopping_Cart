@@ -1,0 +1,46 @@
+name: Shopping Cart CI
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 coverage  # coverage buraya eklendi
+
+    - name: Lint with flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+# 1. Testleri çalıştır ve kapsama oranı %70 altındaysa fail et
+    - name: Run Tests and Check Coverage Threshold
+      run: |
+        coverage run -m unittest test_cart.py
+        # %70'in altındaysa pipeline hata verir ve durur
+        coverage report -m --fail-under=70
+
+    # 2. HTML Raporunu oluştur
+    - name: Generate HTML Report
+      run: |
+        coverage html
+
+    # 3. Raporu GitHub Actions'a yükle (Senin indirmen için)
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: htmlcov/  # Coverage raporunun oluşturulduğu klasör
