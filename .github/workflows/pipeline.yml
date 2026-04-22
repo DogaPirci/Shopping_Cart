@@ -52,8 +52,10 @@ jobs:
       - name: Deploy to Railway
         uses: bervProject/railway-deploy@main
         with:
-          service: "Shopping_Cart-1" # Kendi servis adını yaz veya sil
+          service: "Shopping_Cart-1" # Kendi servis adını yaz veya si
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+
 
 
