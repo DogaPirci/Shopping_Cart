@@ -52,7 +52,7 @@ jobs:
       - name: Deploy to Railway
         uses: bervProject/railway-deploy@main
         with:
-          railway_token: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
           service: my-app
 
 
