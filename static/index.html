@@ -2,55 +2,864 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Project</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VogueVault — ModaByte</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet" />
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --cream: #f5f0e8;
+            --ink: #1a1510;
+            --muted: #7a6f62;
+            --accent: #c9a96e;
+            --accent-dark: #9c7a40;
+            --soft: #e8e0d0;
+            --white: #fdfaf5;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #f5f5f5;
+            background-color: var(--cream);
+            color: var(--ink);
+            font-family: 'DM Mono', monospace;
+            font-weight: 300;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        h1 {
-            color: #2c3e50;
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
         }
 
-        h2 {
-            color: #34495e;
+        /* ── HEADER ── */
+        header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 2rem 4rem;
+            border-bottom: 1px solid rgba(26, 21, 16, 0.12);
+            animation: fadeDown 0.8s ease both;
         }
 
-        .badge {
-            background: #27ae60;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-top: 20px;
+        .header-left {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
         }
 
-        ul {
-            line-height: 2;
+        .logo {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 7rem 2rem 5rem;
+            position: relative;
+            animation: fadeUp 1s ease 0.2s both;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.62rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 300;
+            line-height: 0.95;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            margin-bottom: 0.3em;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--muted);
+            margin-top: 1.5rem;
+            max-width: 520px;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 2.5rem auto;
+            opacity: 0.6;
+        }
+
+        /* ── CD BADGE ── */
+        .cd-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--ink);
+            color: var(--cream);
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.6rem 1.4rem;
+            border-radius: 2px;
+            margin-top: 1rem;
+            animation: fadeUp 1s ease 0.5s both;
+        }
+
+        .cd-banner .dot {
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ── SECTION WRAPPER ── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        section {
+            padding: 5rem 0;
+            border-top: 1px solid rgba(26, 21, 16, 0.08);
+        }
+
+        .section-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--ink);
+            margin-bottom: 3rem;
+        }
+
+        /* ── INFO GRID ── */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            margin-bottom: 4rem;
+            animation: fadeUp 1s ease 0.3s both;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .info-card-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+
+        .info-card-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.2;
+        }
+
+        .info-card-sub {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* ── TEAM SECTION ── */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+        }
+
+        .team-card {
+            background: var(--white);
+            padding: 2rem 1.5rem;
+            transition: background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .team-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .team-card:hover {
+            background: var(--soft);
+        }
+
+        .team-number {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+
+        .team-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        /* ── TEST SUITE TABLE ── */
+        .test-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.72rem;
+        }
+
+        .test-table thead tr {
+            border-bottom: 1px solid var(--ink);
+        }
+
+        .test-table th {
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 1rem 1rem 0;
+            text-align: left;
+            font-weight: 400;
+        }
+
+        .test-table td {
+            padding: 1rem 1rem 1rem 0;
+            border-bottom: 1px solid rgba(26, 21, 16, 0.07);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .test-table tr:hover td {
+            background: rgba(201, 169, 110, 0.05);
+        }
+
+        .test-fn {
+            color: var(--accent-dark);
+            font-weight: 500;
+        }
+
+        .test-pass {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #15803d;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+        }
+
+        .test-pass::before {
+            content: '✓';
+            font-size: 0.7rem;
+        }
+
+        /* ── ARCHITECTURE ── */
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+        }
+
+        .arch-card {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-left: 3px solid transparent;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .arch-card:hover {
+            border-left-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .arch-layer {
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .arch-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .arch-tech {
+            font-size: 0.65rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .arch-tech strong {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        /* ── CD SECTION ── */
+        .cd-section {
+            background: var(--ink);
+            color: var(--cream);
+            padding: 5rem 0;
+        }
+
+        .cd-section .section-title {
+            color: var(--cream);
+        }
+
+        .pipeline-steps {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-top: 3rem;
+        }
+
+        .pipeline-step {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem 1.5rem;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .pipeline-step:hover {
+            background: rgba(201, 169, 110, 0.08);
+        }
+
+        .pipeline-step+.pipeline-step::before {
+            content: '→';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        .step-num {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+
+        .step-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.62rem;
+            color: rgba(245, 240, 232, 0.5);
+            line-height: 1.6;
+        }
+
+        .cd-note {
+            margin-top: 3rem;
+            padding: 1.5rem 2rem;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            background: rgba(201, 169, 110, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cd-note-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .cd-note-text {
+            font-size: 0.68rem;
+            color: rgba(245, 240, 232, 0.7);
+            line-height: 1.7;
+            letter-spacing: 0.02em;
+        }
+
+        .cd-note-text strong {
+            color: var(--accent);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid rgba(26, 21, 16, 0.12);
+            padding: 2.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            header {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                padding: 1.5rem 2rem;
+            }
+
+            .header-left,
+            .header-right {
+                display: none;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .arch-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline-steps {
+                flex-direction: column;
+            }
+
+            .pipeline-step+.pipeline-step::before {
+                content: '↓';
+                left: 50%;
+                top: -12px;
+                transform: translateX(-50%);
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>🚀 Team Name: ModaByte</h1>
-    <h2>📦 Project Name: VogueVault</h2>
 
-    <h2>✅ Functions Covered by Test Suite</h2>
-    <ul>
-        <li>test_addition()</li>
-        <li>test_subtraction()</li>
-        <li>test_multiplication()</li>
-    </ul>
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">COMP 3304 · Yaşar University</div>
+        <div class="logo">Vogue<span>Vault</span></div>
+        <div class="header-right">Team ModaByte · 2025</div>
+    </header>
 
-    <div class="badge">
-        ✅ This page was deployed automatically via Continuous Deployment (CD)
+    <!-- HERO -->
+    <div class="hero">
+        <p class="hero-eyebrow">AI-Powered Digital Wardrobe Management</p>
+        <h1 class="hero-title">Vogue<br><em>Vault</em></h1>
+        <p class="hero-subtitle">A personalised digital twin of your physical wardrobe, powered by Gemini Vision AI</p>
+        <div class="hero-divider"></div>
+        <div class="cd-banner">
+            <span class="dot"></span>
+            Deployed automatically via Continuous Deployment (CD)
+        </div>
     </div>
+
+    <!-- PROJECT INFO -->
+    <section>
+        <div class="container">
+            <p class="section-label fade-in">Project Identity</p>
+            <h2 class="section-title fade-in">At a Glance</h2>
+            <div class="info-grid fade-in">
+                <div class="info-card">
+                    <div class="info-card-label">Team</div>
+                    <div class="info-card-value">ModaByte</div>
+                    <div class="info-card-sub">Doga Pirci · Selin Sermet<br>Asli Goktalay · Arda Ceran</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-label">Project</div>
+                    <div class="info-card-value">VogueVault</div>
+                    <div class="info-card-sub">AI-Powered Digital Wardrobe Management System · COMP 3304</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-label">Instructor</div>
+                    <div class="info-card-value">Dr. Suphi Ucar</div>
+                    <div class="info-card-sub">Fundamentals of Software Engineering<br>Yaşar University</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section>
+        <div class="container">
+            <p class="section-label fade-in">The Team</p>
+            <h2 class="section-title fade-in">ModaByte Members</h2>
+            <div class="team-grid fade-in">
+                <div class="team-card">
+                    <div class="team-number">01</div>
+                    <div class="team-name">Doga Pirci</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-number">02</div>
+                    <div class="team-name">Selin Sermet</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-number">03</div>
+                    <div class="team-name">Asli Goktalay</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-number">04</div>
+                    <div class="team-name">Arda Ceran</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEST SUITE -->
+    <section>
+        <div class="container">
+            <p class="section-label fade-in">Quality Assurance</p>
+            <h2 class="section-title fade-in">Test Suite Coverage</h2>
+            <table class="test-table fade-in">
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Module</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="test-fn">test_create_shirt()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory creates a Shirt object when classification is "shirt" with high confidence</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_create_trouser()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory creates a Trouser object when classification is "trouser" with high confidence</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_create_shoe()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory creates a Shoe object when classification is "shoe" with high confidence</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_create_dress()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory creates a Dress object when classification is "dress" with high confidence</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_create_jacket()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory creates a Jacket object when classification is "jacket" with high confidence</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_low_confidence_returns_unknown()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory returns UnknownItem when AI confidence score is below 0.60 threshold</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_unknown_classification()</td>
+                        <td>DigitalClosetFactory</td>
+                        <td>Factory returns UnknownItem when classification string is unrecognised</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_shirt_get_category()</td>
+                        <td>ClothingItem</td>
+                        <td>Shirt.get_category() returns "Tops"</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_trouser_get_category()</td>
+                        <td>ClothingItem</td>
+                        <td>Trouser.get_category() returns "Bottoms"</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_shoe_display_info()</td>
+                        <td>ClothingItem</td>
+                        <td>Shoe.display_info() returns correct display string</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_gemini_service_classify()</td>
+                        <td>GeminiService</td>
+                        <td>GeminiService.classify_image() returns dict with category and confidence keys</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                    <tr>
+                        <td class="test-fn">test_coverage_threshold()</td>
+                        <td>CI Pipeline</td>
+                        <td>Overall test suite maintains ≥ 70% code coverage as enforced by pipeline</td>
+                        <td><span class="test-pass">PASS</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section>
+        <div class="container">
+            <p class="section-label fade-in">System Design</p>
+            <h2 class="section-title fade-in">Layered Architecture</h2>
+            <div class="arch-grid fade-in">
+                <div class="arch-card">
+                    <div class="arch-layer">Layer 1 · Presentation</div>
+                    <div class="arch-name">Frontend Layer</div>
+                    <div class="arch-tech"><strong>Next.js (React)</strong> · Tailwind CSS<br>Renders UI, handles user
+                        input, calls backend via API routes, manages local state. Screens: Wardrobe, Upload, Stylist,
+                        Matcher, Shop.</div>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-layer">Layer 2 · Business Logic</div>
+                    <div class="arch-name">API Routes Layer</div>
+                    <div class="arch-tech"><strong>Next.js API Routes</strong><br>Four independent modules: Digital
+                        Closet, AI Style Matcher, Intelligent Concept Stylist, Commerce Integration. Factory Method
+                        design pattern applied here.</div>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-layer">Layer 3 · AI & External Services</div>
+                    <div class="arch-name">Intelligence Layer</div>
+                    <div class="arch-tech"><strong>Google Gemini Vision API</strong> · Google Custom Search
+                        API<br>Zero-shot clothing classification, style descriptor generation, real product search.
+                        Results cached to stay within free tiers.</div>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-layer">Layer 4 · Data & Infrastructure</div>
+                    <div class="arch-name">Data Layer</div>
+                    <div class="arch-tech"><strong>Supabase</strong> (PostgreSQL, Auth, Storage) ·
+                        Railway.app<br>Persists user data, clothing metadata, images. Provides JWT-based authentication.
+                        Docker containerised, cloud deployed.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CD SECTION -->
+    <section class="cd-section">
+        <div class="container">
+            <p class="section-label fade-in" style="color:var(--accent)">Continuous Deployment</p>
+            <h2 class="section-title fade-in">Automated Pipeline</h2>
+
+            <div class="pipeline-steps fade-in">
+                <div class="pipeline-step">
+                    <div class="step-num">Step 01</div>
+                    <div class="step-title">Push to main</div>
+                    <div class="step-desc">Developer merges a pull request or pushes directly to the main branch on
+                        GitHub.</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">Step 02</div>
+                    <div class="step-title">CI Triggered</div>
+                    <div class="step-desc">GitHub Actions detects the push and starts the build-and-test job
+                        automatically.</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">Step 03</div>
+                    <div class="step-title">Tests Run</div>
+                    <div class="step-desc">Flake8 lint check runs first, then unittest + coverage report. Must be ≥ 70%
+                        to pass.</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">Step 04</div>
+                    <div class="step-title">Deploy Job</div>
+                    <div class="step-desc">Only if tests pass, the deploy job fires. It calls the Render deploy hook via
+                        curl.</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-num">Step 05</div>
+                    <div class="step-title">Live 🎉</div>
+                    <div class="step-desc">Render pulls the repo, builds the Docker image (nginx:alpine), and serves it
+                        live.</div>
+                </div>
+            </div>
+
+            <div class="cd-note fade-in">
+                <div class="cd-note-icon">🚀</div>
+                <div class="cd-note-text">
+                    <strong>This page was deployed automatically via Continuous Deployment (CD).</strong><br>
+                    No manual steps were taken after the git push. The GitHub Actions pipeline ran the full test suite,
+                    verified ≥ 70% coverage, then triggered a Render.com deployment via a secured deploy hook stored as
+                    a GitHub repository secret. The static page is served inside an <strong>nginx:alpine</strong> Docker
+                    container.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span>Team ModaByte · VogueVault</span>
+        <span>COMP 3304 · Yaşar University · 2025</span>
+        <span>Deployed via GitHub Actions + Render</span>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(el => {
+                if (el.isIntersecting) {
+                    el.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
 </body>
 
 </html>
